@@ -1,0 +1,11 @@
+1. Bouger le code à Théo par rapport à la nouvelle structure
+2. Un main utilisera configuration pour lire les config et les donner a business qui a son tour utilisera smtp pour effectuer le necessaire
+3. Analyse orientee objet en relisant la donnee (merci olivier)
+    business: PrankGenerator(gros du travail, attention au Function Requirements), Prank, Group(liste de personnes), Person, Mail (from, to, body)
+    SmtpClient: SmtpClient (void send Mail mail) (interface 15:51)
+    configuration: ConfigurationManager
+4. Partage du travail
+
+
+java -jar MockMock.jar -p 2525
+
