@@ -33,7 +33,7 @@ public class ConfigurationManager {
         String[] split;
         for (String a : getLine(file)){
             split = a.split("=");
-            if (split[0].equals("ip"))
+            if (split[0].equals("smtpServerAdress"))
                 return split[1];
         }
         System.out.println("Erreur, pas trouvé d'adresse");
@@ -44,7 +44,7 @@ public class ConfigurationManager {
         String[] split;
         for (String a : getLine(file)){
             split = a.split("=");
-            if (split[0].equals("port"))
+            if (split[0].equals("smtpServerPort"))
                 return split[1];
         }
         System.out.println("Erreur, pas trouvé d'adresse");
