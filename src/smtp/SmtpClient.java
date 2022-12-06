@@ -1,6 +1,6 @@
 package smtp;
 
-import model.mail.Message;
+import model.mail.Mail;
 
 import java.io.*;
 import java.net.Socket;
@@ -24,9 +24,9 @@ public class SmtpClient {
     /**
      * Envoi un mail via le protocole TCP.
      * Cette fonction gère toute la communication avec le serveur SMTP
-     * @param message Message à envoyer qui contient toutes les infos nécessaires. (from, to, body, ...)
+     * @param mail Message à envoyer qui contient toutes les infos nécessaires. (from, to, body, ...)
      */
-    public void sendMessage(Message message) throws IOException {
+    public void sendMail(Mail mail) throws IOException {
         LOG.info("Sendin message via SMTP");
         socket = new Socket(smtpServerAdress, smtpServerPort);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -46,7 +46,7 @@ public class SmtpClient {
         }
 
         out.write("MAIL FROM:");
-        // TODO
+        // TODO FROM
         out.write(CRLF);
         out.flush();
         line = in.readLine();
@@ -67,6 +67,14 @@ public class SmtpClient {
 
         // TODO body
 
-        out.write(CRLF);
+
+        out.write("QUIT" + CRLF);
+        out.flush();
+
+        // Fermeture des flux (socket, reader et writer)
+        out.close();
+        in.close();
+        socket.close();
+        LOG.info("Connection was successfully closed ! :)" + CRLF);
     }
 }
