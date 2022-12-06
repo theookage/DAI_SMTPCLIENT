@@ -7,10 +7,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ConfigurationManager {
-
-
 
     private List<String> getLine(File file) throws IOException {
 
@@ -51,6 +50,47 @@ public class ConfigurationManager {
         System.out.println("Erreur, pas trouvé d'adresse");
         return "";
     }
+    private List<String> getAllText(File file) throws IOException{
+        InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
+        char c = 0;
+        StringBuilder s = new StringBuilder();
+
+        while(isr.ready()){
+            c = (char)isr.read();
+            s.append(c);
+        }
+
+        return List.of(s.toString().split("/r/n/r/n=="));
+
+
+    }
+
+    public String[] getAllMessages(File file) throws IOException{
+        List<String> mail = getAllText(file);
+        Random rand = new Random();
+        String msg = mail.get(rand.nextInt(mail.size()));
+        String[] split = new String[2];
+        System.arraycopy(msg.split("/r/n"), 0, split, 0, 2);
+        return split;
+    }
+
+    public List<String> getAllMessage(File file, int nbVictims) throws IOException{
+        List<String> victims = getLine(file);
+        List<String> victimsList = new ArrayList<>();
+        if(nbVictims < 3){
+            System.out.println("Pas assez de victime");
+        }
+        if(victims.size() < nbVictims){
+            System.out.println("Trop de victime");
+        }
+        Random rand = new Random();
+        for (int i = 0; i < nbVictims; i++)
+            victimsList.add(victims.get(rand.nextInt(victims.size())));
+        return  victimsList;
+
+    }
+
+
 
 
 }
