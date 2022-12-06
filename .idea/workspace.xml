@@ -11,6 +11,9 @@
       <change beforePath="$PROJECT_DIR$/src/model/mail/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/mail/Mail.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/mail/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/mail/Person.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/smtp/SmtpClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/smtp/SmtpClient.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/config/ConfigurationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/ConfigurationManager.java" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +71,7 @@
       <workItem from="1669889537858" duration="2987000" />
       <workItem from="1670281306055" duration="28000" />
       <workItem from="1670281371328" duration="1842000" />
-      <workItem from="1670329450199" duration="9788000" />
+      <workItem from="1670329450199" duration="3690000" />
     </task>
     <servers />
   </component>
