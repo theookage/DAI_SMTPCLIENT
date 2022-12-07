@@ -89,7 +89,7 @@ public class ConfigurationManager {
         return victims;
     }
 
-    public List<String> getAllMessage(File file, int nbVictims) throws IOException{
+    /*public List<String> getAllMessage(File file, int nbVictims) throws IOException{
         List<String> victims = getLine(file);
         List<String> victimsList = new ArrayList<>();
         if(nbVictims < 3){
@@ -103,7 +103,7 @@ public class ConfigurationManager {
             victimsList.add(victims.get(rand.nextInt(victims.size())));
         return  victimsList;
 
-    }
+    }*/
 
 
 
