@@ -1,68 +1,89 @@
-# API-2021-SMTP
+# Rapport du labo SMTP par Jérémie Santoro et Théo Coutaudier
+## Description brève du projet
+Ce programme Java permet d'effectuer des pranks en envoyant des mails forgés.
+Ces mails seront envoyés par UNE victime (faux auteur) à plusieurs (au moins 2) autres victimes qui elles seront
+les récéptrices de ce fameux mail.
+Pour mettre ça en place, nous avons utilisé des sockets puis effectuer les requêtes SMTP nécessaires à travers ceux-ci.
+Le projet est composé en 3 principaux packages :
+### config
+Contient les outils nécessaires pour aller récupérer les informations de l'utilisateur puis les mettre à disposition
+pour les autres packages ci-dessous
+### model
+Contient toute la logique métier du programme. Les différentes entités représentées sont: Groupe, Mail, Personne et Prank
+### smtp
+Contient la logique de communication entre notre programme (client) et le serveur SMTP. Cette partie va donc s'occuper
+de :
+- La connexion au serveur
+- La communication avec le serveur
+- L'envoi des mails
 
-⚠️ Please clone [this fork of MockMock server](https://github.com/DominiqueComte/MockMock) instead of the official version and run `mvn clean package` to generate a working .jar file. The official version does not work with Java 17 anymore.
+## Qu'est-ce que MockMock
+MockMock est un serveur SMTP qui va permettre de tester nos différents clients SMTP sans que des erreurs sur ceux-ci
+soient problématiques. Ce système permet notamment d'éviter les boulettes suivantes:
+- Envoi d'un mail à une personne indésirable
+- Charge trop grosse sur le serveur (ex: boucle infini sur une opération couteuse tel que l'envoi d'un mail)
+- Code/communication qui ferait crasher le serveur, car mal formulée par exemple.
+Cet outil ne va réellement envoyer aucun mail.
 
-## Objectives
+## Instructions pour mettre en place le serveur mock SMTP avec Docker
+Commencer par installer Docker (lien pour téléchargable ici : https://www.docker.com/).
 
-In this lab, you will develop a client application (TCP) in Java. This client application will use the Socket API to communicate with a SMTP server. The code that you write will include a **partial implementation of the SMTP protocol**. These are the objectives of the lab:
+Ajouter un dossier Docker à la racine du projet et y ajouter les fichiers suivants :
+- build-image.sh, ce script permet de lancer un build l'image locallement.
+- run-container.sh, ce script permet de lancer le server dans docker (avec les 2 ports en parametre)
+- MockMock.jar, ceci est le serveur .jar
+- Dockerfile, ce fichier contient la commande cmd une fois que le Docker container à démarrer
 
-* Make practical experiments to become familiar with the **SMTP protocol**. After the lab, you should be able to use a command line tool to **communicate with an SMTP server**. You should be able to send well-formed messages to the server, in order to send emails to the address of your choice.
+Pour lancer le serveur Mock il faut :
+Lancer Docker,
+une fois que Docker run, executer les scripts build-image.sh et run-container.sh (dans cet ordre) dans un terminal.
 
-* Understand the notions of **test double** and **mock server**, which are useful when developing and testing a client-server application. During the lab, you will setup and use such a **mock server**.
+Le serveur est prêt à l'emploi, pour le voir il suffit d'écrire "localhost:8282" dans la bar de recherche d'un navigateur.
 
-* Understand what it means to **implement the SMTP protocol** and be able to send e-mail messages, by working directly on top of the Socket API (i.e. you are not allowed to use a SMTP library).
+## Instructions sur l'utilisation de notre projet (outil)
+### Fichiers de configuration
+Les fichiers devant être modifiés par l'utilisateur sont les suivants:
+#### config.propreties
+Pour choisir l'adresse ainsi que le port du serveur SMTP désiré.
+Ainsi que le nombre de groupes qui seront créés.
+Modifiez uniquement les valeurs à gauche des "=" !
+#### messages.utf8
+Contient les différents contenus de mail possibles.
+Ceux-ci doivent être séparés par "\n==\n"
+#### victims.utf8
+Contient tous les emails des victimes.
+Une ligne doit correspondre à une adresse mail de victime (veillez à bien respecter le format mail avec @)
 
-* **See how easy it is to send forged e-mails**, which appear to be sent by certain people but in reality are issued by malicious users.
+## Description de l'implémentation (présentation de l'architecture)
+Classes utilisées:
 
-* **Design a simple object-oriented model** to implement the functional requirements described in the next paragraph.
+Ces classes sont très simples et contiennent très peu de logique si ce n'est ConfigurationManager qui doit lire les fichiers de configuration et vérifer que les informations soient cohérentes.
 
+![UML](./figures/uml.png)
 
-## Functional requirements
+Toutes ces classes sont utilisées dans le *main* en plusieurs parties:
 
-Your mission is to develop a client application that automatically plays pranks on a list of victims:
+1. Récupération des configuration
 
-* The user should be able to **define a list of victims** (concretely, you should be able to create a file containing a list of e-mail addresses).
-* The user should be able to **define how many groups of victims should be formed** in a given campaign. In every group of victims, there should be 1 sender and at least 2 recipients (i.e. the minimum size for a group is 3).
-* The user should be able to **define a list of e-mail messages**. When a prank is played on a group of victims, then one of these messages should be selected. **The mail should be sent to all group recipients, from the address of the group sender**. In other words, the recipient victims should be lead to believe that the sender victim has sent them.
+   C'est la que nous récupérons les informations provenant des fichiers de configuration:
 
-## Constraints
+   - Adresse et port du serveur
+   - Nombre de groupes désirés
+   - Liste des messages (bodies)
+   - Liste des emails des victimes
 
-- The goal is for you to work at the wire protocol level (with the Socket API). Therefore, you CANNOT use a library that takes care of the protocol details. You have to work with the input and output streams.
-- The program must be configurable: the addresses, groups, messages CANNOT be hard-coded in the program and MUST be managed in config files.
-- You must send **one** e-mail per group, and not one e-mail for every member of every group.
-- There must be at least a simple validation process of the input files that displays errors on the console to describe what's wrong (e.g. an invalid number of groups, an invalid e-mail address that does not contain a '@' character, an invalid format, etc.).
-- We ask you to encode the subject and the body of your e-mails (you don't have to encode the `From` and `To` contents); you can find more information [here](https://ncona.com/2011/06/using-utf-8-characters-on-an-e-mail-subject/).
+2. Génération des groupes
 
+   Le nombre de groupes voulus est généré en attribuant à chaque fois 1 sender et 2 receiver. (Le nombre de receiver voulu peut être changé via la variable *nbReceiver*).
 
-## Example
+3. Création des mails
 
-Consider that your program generates a group G1. The group sender is Bob. The group recipients are Alice, Claire and Peter. When the prank is played on group G1, then your program should pick one of the fake messages. It should communicate with an SMTP server, so that Alice, Claire and Peter receive an e-mail, which appears to be sent by Bob.
+   Les mails sont crées pour chaque groupe en leur donnant un body aléatoire.
 
-## Teams
+4. Envoi des mails
 
-You may work in teams of 2 students.
+   La classe SmtpClient est utilisé pour communiquer avec le serveur SMTP en fonction des valeurs générées aux étapes précédentes.
 
-## Deliverables
+   
 
-You will deliver the results of your lab in a GitHub repository. You do not have to fork a specific repo, you can create one from scratch.
-
-Your repository should contain both the source code of your Java project and your report. Your report should be a single `README.md` file, located at the root of your repository. The images should be placed in a `figures` directory.
-
-Your report MUST include the following sections:
-
-* **A brief description of your project**: if people exploring GitHub find your repo, without a prior knowledge of the API course, they should be able to understand what your repo is all about and whether they should look at it more closely.
-
-* **What is MockMock (or any other mock SMTP server you decided to use)?**
-
-* **Instructions for setting up your mock SMTP server (with Docker - which you will learn all about in the next 2 weeks)**. The user who wants to experiment with your tool but does not really want to send pranks immediately should be able to use a mock SMTP server. For people who are not familiar with this concept, explain it to them in simple terms. Explain which mock server you have used and how you have set it up.
-
-* **Clear and simple instructions for configuring your tool and running a prank campaign**. If you do a good job, an external user should be able to clone your repo, edit a couple of files and send a batch of e-mails in less than 10 minutes.
-
-* **A description of your implementation**: document the key aspects of your code. It is a good idea to start with a **class diagram**. Decide which classes you want to show (focus on the important ones) and describe their responsibilities in text. It is also certainly a good idea to include examples of dialogues between your client and an SMTP server (maybe you also want to include some screenshots here).
-
-## References
-
-* [Here is our fork of MockMock server](https://github.com/HEIGVD-Course-API/MockMock), in which we resolved an issues with a dependency (see this [pull request](https://github.com/tweakers/MockMock/pull/8) if you want to have more information).
-* The [mailtrap](<https://mailtrap.io/>) online service for testing SMTP
-* The [SMTP RFC](<https://tools.ietf.org/html/rfc5321#appendix-D>), and in particular the [example scenario](<https://tools.ietf.org/html/rfc5321#appendix-D>)
-* Testing SMTP with TLS: `openssl s_client -connect smtp.mailtrap.io:2525 -starttls smtp -crlf`
+   
