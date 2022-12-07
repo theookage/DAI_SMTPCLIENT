@@ -15,7 +15,7 @@ public class SmtpClient {
     int smtpServerPort = 25;
     Socket socket;
     BufferedReader in;
-    PrintWriter out; // pour éviter les exceptions
+    BufferedWriter out; // pour éviter les exceptions
 
     public SmtpClient(String smtpServerAdress, int smtpServerPort){
         // Instanciation des champs de la classe
@@ -32,11 +32,11 @@ public class SmtpClient {
         LOG.info("Sendin message via SMTP");
         socket = new Socket(smtpServerAdress, smtpServerPort);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-        out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
+        out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
         LOG.info("Connected to the Server");
         String line = in.readLine();
         LOG.info(line);
-        out.println("EHLO " + smtpServerAdress + CRLF);
+        out.write("EHLO " + smtpServerAdress + CRLF);
         out.flush();
         line = in.readLine();
         LOG.info(line);
@@ -48,8 +48,8 @@ public class SmtpClient {
            LOG.info(line);
         }
 
-        String theo = mail.getFrom().toString();
-        out.write("MAIL FROM:" + mail.getFrom().toString() + CRLF);
+        String theo = "MAIL FROM: " + mail.getFrom().toString() + CRLF;
+        out.write(theo);
         out.flush();
         line = in.readLine();
         LOG.info(line);
