@@ -1,9 +1,11 @@
 package smtp;
 
 import model.mail.Mail;
+import model.mail.Person;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
 public class SmtpClient {
@@ -29,12 +31,13 @@ public class SmtpClient {
     public void sendMail(Mail mail) throws IOException {
         LOG.info("Sendin message via SMTP");
         socket = new Socket(smtpServerAdress, smtpServerPort);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+        out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
         LOG.info("Connected to the Server");
         String line = in.readLine();
         LOG.info(line);
         out.println("EHLO " + smtpServerAdress + CRLF);
+        out.flush();
         line = in.readLine();
         LOG.info(line);
         if(!line.startsWith("250")) {
@@ -45,14 +48,18 @@ public class SmtpClient {
            LOG.info(line);
         }
 
-        out.write("MAIL FROM:");
-        // TODO FROM
-        out.write(CRLF);
+        String theo = mail.getFrom().toString();
+        out.write("MAIL FROM:" + mail.getFrom().toString() + CRLF);
         out.flush();
         line = in.readLine();
         LOG.info(line);
 
-        // TODO for each sur les TO
+        for(Person p : mail.getTo()) {
+            out.write("RCPT TO:");
+            out.write(p.toString());
+            out.write(CRLF);
+            out.flush();
+        }
 
         out.write("DATA");
         out.write(CRLF);
@@ -61,12 +68,18 @@ public class SmtpClient {
         LOG.info(line);
         out.write("Content-Type: text/plain charset=\"utf-8\"" + CRLF);
 
-        // TODO from
+        out.write("From: ");
+        out.write(mail.getFrom().toString());
+        out.write(CRLF);
 
-        // TODO to
-
-        // TODO body
-
+        out.write("To: ");
+        for(Person p : mail.getTo()) {
+            out.write(p.toString());
+            out.write(",");
+        }
+        out.write(CRLF + CRLF);
+        out.write(mail.getBody());
+        out.flush();
 
         out.write("QUIT" + CRLF);
         out.flush();

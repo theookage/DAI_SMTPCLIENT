@@ -11,4 +11,8 @@ public class Person {
     public String getMailAdress(){
         return mailAdress;
     }
+
+    public String toString() {
+        return this.mailAdress;
+    }
 }
