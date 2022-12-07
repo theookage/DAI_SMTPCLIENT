@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="783c5230-ed86-4b30-a263-de5a29b3dc50" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RENDU.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config/ConfigurationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/ConfigurationManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/config/ConfigurationManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/config/ConfigurationManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/mail/Group.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/mail/Group.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/mail/Message.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/model/mail/Person.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/mail/Person.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/smtp/SmtpClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/smtp/SmtpClient.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

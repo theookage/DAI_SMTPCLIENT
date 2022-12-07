@@ -39,16 +39,22 @@ public class ConfigurationManager {
         System.out.println("Erreur, pas trouvé d'adresse");
         return "";
     }
-    public String getConfigPort(File file) throws IOException {
+    public int getIntConfig(File file, int i) throws IOException {
 
         String[] split;
         for (String a : getLine(file)){
             split = a.split("=");
-            if (split[0].equals("smtpServerPort"))
-                return split[1];
+            if (i == 1) {
+                if (split[0].equals("smtpServerPort"))
+                    return Integer.parseInt(split[1]);
+            }
+            if(i == 2){
+                if (split[0].equals("numberOfGroups"))
+                    return Integer.parseInt(split[1]); 
+            }
         }
         System.out.println("Erreur, pas trouvé d'adresse");
-        return "";
+        return -1;
     }
     private List<String> getAllText(File file) throws IOException{
         InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
