@@ -9,16 +9,17 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // 1. Recuperation des configs
         ConfigurationManager configurationManager = new ConfigurationManager();
-        File propreties = new File("./config/config.propreties");
+        File fPropreties = new File("./config/config.propreties");
         // a) les les infos sur la config
-        String smtpServerAdress = configurationManager.getConfigAdress(propreties);
-        System.out.println(smtpServerAdress);
-        int smtpServerPort;
-        int numberOfGroups = 0;
+        String smtpServerAdress = configurationManager.getConfigAdress(fPropreties);
+        int smtpServerPort = configurationManager.getConfigPort(fPropreties);
+        int numberOfGroups = configurationManager.getConfigNbGroup(fPropreties);
         // b) les messages (les "body")
-        String[] messages;
+        File fMessages = new File("./config/messages.utf8");
+        String[] messages = configurationManager.getAllMessages(fMessages);
         // c) les victimes
-        Person[] victimes;
+        File fVictimes = new File("./config/victims.utf8");
+        Person[] victimes = configurationManager.getAllVictims(fVictimes);
 
         /*// 2. Genere le nombre de groupes voulus
         Group[] groups = new Group[0];
