@@ -61,6 +61,7 @@ Ces classes sont très simples et contiennent très peu de logique si ce n'est C
 
 ![UML](./figures/uml.png)
 
+### Présenation du main
 Toutes ces classes sont utilisées dans le *main* en plusieurs parties:
 
 1. Récupération des configuration
@@ -83,6 +84,23 @@ Toutes ces classes sont utilisées dans le *main* en plusieurs parties:
 4. Envoi des mails
 
    La classe SmtpClient est utilisé pour communiquer avec le serveur SMTP en fonction des valeurs générées aux étapes précédentes.
+
+### Communication SMTP sans erreur
+c: EHLO xhaka
+S: ... (infos sur le serveur)
+S: 250 Ok
+C: MAIL FROM: <sender email>
+S: 250 Ok
+Boucle sur (
+C: MAIL TO: <receiver email>
+S: 250 Ok
+)
+C: DATA
+S: 250 Ok
+C: Bonjour je suis un email CRLF.CRLF
+S: 250 Ok
+C: Quit
+S: 221 Bye
 
    
 
