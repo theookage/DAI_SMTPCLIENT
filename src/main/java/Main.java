@@ -26,13 +26,13 @@ public class Main {
         // c) les victimes
         File fVictimes = new File("config/victims.utf8");
         List<Person> victims = configurationManager.getAllVictims(fVictimes);
-        if(victims.size() < 1 + nbReceiver) {
+        if (victims.size() < 1 + nbReceiver) {
             throw new RuntimeException("Le fichier de config ne contient pas assez de victimes !\n");
         }
 
         // 2. Genere le nombre de groupes voulus
         List<Group> groups = new ArrayList<>();
-        for(int i = 0; i < numberOfGroups; ++i) {
+        for (int i = 0; i < numberOfGroups; ++i) {
             List<Person> gVictims = new ArrayList<>(victims);
             Group group = new Group();
             // Pour chaque groupe ajouter 1 sender et nbReceiver receiver
@@ -40,7 +40,7 @@ public class Main {
             Person randomSender = gVictims.get(ran.nextInt(gVictims.size()));
             group.setSender(randomSender);
             gVictims.remove(randomSender);
-            for(int j = 0; j < nbReceiver; ++j) {
+            for (int j = 0; j < nbReceiver; ++j) {
                 Person randomReceiver = gVictims.get(ran.nextInt(gVictims.size()));
                 group.addRecipient(randomReceiver);
                 gVictims.remove(randomReceiver);

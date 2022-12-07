@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Group {
     Person sender;
-    List<Person> recipients = new ArrayList<Person>();
+    List<Person> recipients = new ArrayList<>();
 
     public Group(Person sender, List<Person> recipients) {
-        if(recipients.size() < 2) {
+        if (recipients.size() < 2) {
             throw new RuntimeException("Il faut au moins 2 recipients !\n");
         }
         this.sender = sender;
@@ -34,9 +34,5 @@ public class Group {
 
     public void addRecipient(Person recipient) {
         this.recipients.add(recipient);
-    }
-
-    public void setRecipients(List<Person> recipients) {
-        this.recipients = recipients;
     }
 }

@@ -11,13 +11,13 @@ import java.util.logging.Logger;
 public class SmtpClient {
     private static final Logger LOG = Logger.getLogger(SmtpClient.class.getName());
     private static final String CRLF = "\r\n";
-    String smtpServerAdress = "localhost";
-    int smtpServerPort = 25;
+    String smtpServerAdress;
+    int smtpServerPort;
     Socket socket;
     BufferedReader in;
     BufferedWriter out; // pour éviter les exceptions
 
-    public SmtpClient(String smtpServerAdress, int smtpServerPort){
+    public SmtpClient(String smtpServerAdress, int smtpServerPort) {
         // Instanciation des champs de la classe
         this.smtpServerAdress = smtpServerAdress;
         this.smtpServerPort = smtpServerPort;
@@ -26,6 +26,7 @@ public class SmtpClient {
     /**
      * Envoi un mail via le protocole TCP.
      * Cette fonction gère toute la communication avec le serveur SMTP
+     *
      * @param mail Message à envoyer qui contient toutes les infos nécessaires. (from, to, body, ...)
      */
     public void sendMail(Mail mail) throws IOException {
@@ -42,23 +43,23 @@ public class SmtpClient {
         out.flush();
         line = in.readLine();
         LOG.info(line);
-        if(!line.startsWith("250")) {
+        if (!line.startsWith("250")) {
             throw new IOException("SMTP error: " + line);
         }
         while (line.startsWith("250-")) {
-           line = in.readLine();
-           LOG.info(line);
+            line = in.readLine();
+            LOG.info(line);
         }
 
         // MAIL FROM
-        String theo = "MAIL FROM: " + mail.getFrom().toString() + CRLF;
+        String theo = "MAIL FROM: " + mail.from().toString() + CRLF;
         out.write(theo);
         out.flush();
         line = in.readLine();
         LOG.info(line);
 
         // MAIL TO
-        for(Person p : mail.getTo()) {
+        for (Person p : mail.to()) {
             out.write("RCPT TO:");
             out.write(p.toString());
             out.write(CRLF);
@@ -73,17 +74,17 @@ public class SmtpClient {
         LOG.info(line);
         out.write("Content-Type: text/plain charset=\"utf-8\"" + CRLF);
         out.write("From: ");
-        out.write(mail.getFrom().toString());
+        out.write(mail.from().toString());
         out.write(CRLF);
         out.write("To: ");
-        for(Person p : mail.getTo()) {
+        for (Person p : mail.to()) {
             out.write(p.toString());
-            if(p != (mail.getTo().get(mail.getTo().size()-1))){
+            if (p != (mail.to().get(mail.to().size() - 1))) {
                 out.write(",");
             }
         }
         out.write(CRLF + CRLF);
-        out.write(mail.getBody());
+        out.write(mail.body());
         out.write(CRLF + "." + CRLF);
         out.flush();
 
