@@ -4,6 +4,7 @@ import model.mail.Person;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -19,7 +20,8 @@ public class Main {
         String[] messages = configurationManager.getAllMessages(fMessages);
         // c) les victimes
         File fVictimes = new File("./config/victims.utf8");
-        Person[] victimes = configurationManager.getAllVictims(fVictimes);
+        //Person[] victimes = configurationManager.getAllVictims(fVictimes);
+        List<Person> victims = configurationManager.getAllVictims(fVictimes);
 
         /*// 2. Genere le nombre de groupes voulus
         Group[] groups = new Group[0];

@@ -1,9 +1,8 @@
 package config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import model.mail.Person;
+
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +76,17 @@ public class ConfigurationManager {
         Random rand = new Random();
         String msg = mail.get(rand.nextInt(mail.size()));
         String[] split = new String[2];
-        System.arraycopy(msg.split("/r/n"), 0, split, 0, 2);
+        System.arraycopy(msg.split("\n\n==\n"), 0, split, 0, 2);
         return split;
+    }
+
+    public List<Person> getAllVictims(File file) throws IOException {
+        List<Person> victims = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        for(String line; (line = reader.readLine()) != null;) {
+            victims.add(new Person(line));
+        }
+        return victims;
     }
 
     public List<String> getAllMessage(File file, int nbVictims) throws IOException{
