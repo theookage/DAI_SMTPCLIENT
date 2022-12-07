@@ -3,7 +3,7 @@
 Ce programme Java permet d'effectuer des pranks en envoyant des mails forgés.
 Ces mails seront envoyés par UNE victime (faux auteur) à plusieurs (au moins 2) autres victimes qui elles seront
 les récéptrices de ce fameux mail.
-Pour mettre ça en place nous avons utilisé des sockets puis effectuer les requêtes SMTP nécessaires à travers ceux-ci.
+Pour mettre ça en place, nous avons utilisé des sockets puis effectuer les requêtes SMTP nécessaires à travers ceux-ci.
 Le projet est composé en 3 principaux packages :
 ### config
 Contient les outils nécessaires pour aller récupérer les informations de l'utilisateur puis les mettre à disposition
@@ -20,15 +20,27 @@ de :
 ## Qu'est-ce que MockMock
 MockMock est un serveur SMTP qui va permettre de tester nos différents clients SMTP sans que des erreurs sur ceux-ci
 soient problématiques. Ce système permet notamment d'éviter les boulettes suivantes:
-- Envoi d'un mail à un personne indésirable
-- Charge trop grosse sur le serveur (ex: boucle infini sur un opération couteuse tel que l'envoi d'un mail)
-- Code/communication qui ferait crasher le serveur car mal formulée par exemple
+- Envoi d'un mail à une personne indésirable
+- Charge trop grosse sur le serveur (ex: boucle infini sur une opération couteuse tel que l'envoi d'un mail)
+- Code/communication qui ferait crasher le serveur, car mal formulée par exemple.
+Cet outil ne va réellement envoyer aucun mail.
 
 ## Instructions pour mettre en place le serveur mock SMTP avec Docker
 TODO 
 
 ## Instructions sur l'utilisation de notre projet (outil)
-TODO
+### Fichiers de configuration
+Les fichiers devant être modifiés par l'utilisateur sont les suivants:
+#### config.propreties
+Pour choisir l'adresse ainsi que le port du serveur SMTP désiré.
+Ainsi que le nombre de groupes qui seront créés.
+Modifiez uniquement les valeurs à gauche des "=" !
+#### messages.utf8
+Contient les différents contenus de mail possibles.
+Ceux-ci doivent être séparés par "\n==\n"
+#### victims.utf8
+Contient tous les emails des victimes.
+Une ligne doit correspondre à une adresse mail de victime (veillez à bien respecter le format mail avec @)
 
 ## Description de l'implémentation (présentation de l'architecture)
 TODO

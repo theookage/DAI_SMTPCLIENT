@@ -15,7 +15,6 @@ public class Main {
         System.out.println(smtpServerAdress);
         int smtpServerPort;
         int numberOfGroups = 0;
-        String witnessesToCC;
         // b) les messages (les "body")
         String[] messages;
         // c) les victimes
