@@ -15,16 +15,16 @@ public class Main {
         final int nbReceiver = 2;
         // 1. Recuperation des configs
         ConfigurationManager configurationManager = new ConfigurationManager();
-        File fPropreties = new File("./config/config.propreties");
+        File fPropreties = new File("config/config.propreties");
         // a) les les infos sur la config
         String smtpServerAdress = configurationManager.getConfigAdress(fPropreties);
         int smtpServerPort = configurationManager.getConfigPort(fPropreties);
         int numberOfGroups = configurationManager.getConfigNbGroup(fPropreties);
         // b) les messages (les "body")
-        File fMessages = new File("./config/messages.utf8");
+        File fMessages = new File("config/messages.utf8");
         String[] messages = configurationManager.getAllMessages(fMessages);
         // c) les victimes
-        File fVictimes = new File("./config/victims.utf8");
+        File fVictimes = new File("config/victims.utf8");
         List<Person> victims = configurationManager.getAllVictims(fVictimes);
         if(victims.size() < 1 + nbReceiver) {
             throw new RuntimeException("Le fichier de config ne contient pas assez de victimes !\n");
