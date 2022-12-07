@@ -1,4 +1,4 @@
 smtpServerAdress=localhost
-smtpServerPort=2525
+smtpServerPort=25
 numberOfGroups=8
 witnessesToCC=jeremie.santoro@heig-vd.ch
