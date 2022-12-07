@@ -1,15 +1,15 @@
 package model.mail;
 
+import java.util.List;
+
 public class Mail {
     private Person from;
-    private Person[] to;
-    private String subject;
+    private List<Person> to;
     private String body;
 
-    public Mail(Person from, Person[] to, String subject, String body){
+    public Mail(Person from, List<Person> to, String body){
        this.from = from;
        this.to = to;
-       this.subject = subject;
        this.body = body;
     }
 
@@ -17,12 +17,8 @@ public class Mail {
         return from;
     }
 
-    public Person[] getTo() {
+    public List<Person> getTo() {
         return to;
-    }
-
-    public String getSubject() {
-        return subject;
     }
 
     public String getBody() {
