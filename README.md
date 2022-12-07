@@ -86,21 +86,8 @@ Toutes ces classes sont utilisées dans le *main* en plusieurs parties:
    La classe SmtpClient est utilisé pour communiquer avec le serveur SMTP en fonction des valeurs générées aux étapes précédentes.
 
 ### Communication SMTP sans erreur
-c: EHLO xhaka
-S: ... (infos sur le serveur)
-S: 250 Ok
-C: MAIL FROM: <sender email>
-S: 250 Ok
-Boucle sur (
-C: MAIL TO: <receiver email>
-S: 250 Ok
-)
-C: DATA
-S: 250 Ok
-C: Bonjour je suis un email CRLF.CRLF
-S: 250 Ok
-C: Quit
-S: 221 Bye
+Bien entendu chaque ligne se termine par un CRLF
+![CommSMTP](./figures/comm.png)
 
    
 
