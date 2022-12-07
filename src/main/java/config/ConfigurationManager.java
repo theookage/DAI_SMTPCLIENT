@@ -84,6 +84,9 @@ public class ConfigurationManager {
         List<Person> victims = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
         for(String line; (line = reader.readLine()) != null;) {
+            if(!line.contains("@") && !line.contains(".")) {
+               throw new RuntimeException("Une victime ne possède pas une adresse mail valide !\n");
+            }
             victims.add(new Person(line));
         }
         return victims;

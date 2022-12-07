@@ -36,6 +36,8 @@ public class SmtpClient {
         LOG.info("Connected to the Server");
         String line = in.readLine();
         LOG.info(line);
+
+        // EHLO
         out.write("EHLO " + smtpServerAdress + CRLF);
         out.flush();
         line = in.readLine();
@@ -48,12 +50,14 @@ public class SmtpClient {
            LOG.info(line);
         }
 
+        // MAIL FROM
         String theo = "MAIL FROM: " + mail.getFrom().toString() + CRLF;
         out.write(theo);
         out.flush();
         line = in.readLine();
         LOG.info(line);
 
+        // MAIL TO
         for(Person p : mail.getTo()) {
             out.write("RCPT TO:");
             out.write(p.toString());
@@ -61,26 +65,29 @@ public class SmtpClient {
             out.flush();
         }
 
+        // DATA
         out.write("DATA");
         out.write(CRLF);
         out.flush();
         line = in.readLine();
         LOG.info(line);
         out.write("Content-Type: text/plain charset=\"utf-8\"" + CRLF);
-
         out.write("From: ");
         out.write(mail.getFrom().toString());
         out.write(CRLF);
-
         out.write("To: ");
         for(Person p : mail.getTo()) {
             out.write(p.toString());
-            out.write(",");
+            if(p != (mail.getTo().get(mail.getTo().size()-1))){
+                out.write(",");
+            }
         }
         out.write(CRLF + CRLF);
         out.write(mail.getBody());
+        out.write(CRLF + "." + CRLF);
         out.flush();
 
+        // QUIT
         out.write("QUIT" + CRLF);
         out.flush();
 
