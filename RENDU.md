@@ -26,7 +26,19 @@ soient problématiques. Ce système permet notamment d'éviter les boulettes sui
 Cet outil ne va réellement envoyer aucun mail.
 
 ## Instructions pour mettre en place le serveur mock SMTP avec Docker
-TODO 
+Commencer par installer Docker (lien pour téléchargable ici : https://www.docker.com/).
+
+Ajouter un dossier Docker à la racine du projet et y ajouter les fichiers suivants :
+- build-image.sh, ce script permet de lancer un build l'image locallement.
+- run-container.sh, ce script permet de lancer le server dans docker (avec les 2 ports en parametre)
+- MockMock.jar, ceci est le serveur .jar
+- Dockerfile, ce fichier contient la commande cmd une fois que le Docker container à démarrer
+
+Pour lancer le serveur Mock il faut :
+Lancer Docker,
+une fois que Docker run, executer les scripts build-image.sh et run-container.sh (dans cet ordre) dans un terminal.
+
+Le serveur est prêt à l'emploi, pour le voir il suffit d'écrire "localhost:8282" dans la bar de recherche d'un navigateur.
 
 ## Instructions sur l'utilisation de notre projet (outil)
 ### Fichiers de configuration
