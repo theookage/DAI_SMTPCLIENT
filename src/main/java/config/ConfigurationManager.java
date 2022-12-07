@@ -65,7 +65,7 @@ public class ConfigurationManager {
         return getIntConfig(file, "numberOfGroups");
     }
 
-    private List<String> getAllText(File file) throws IOException {
+    public List<String> getAllBodies(File file) throws IOException {
         InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
         char c;
         StringBuilder s = new StringBuilder();
@@ -75,18 +75,7 @@ public class ConfigurationManager {
             s.append(c);
         }
 
-        return List.of(s.toString().split("/r/n/r/n=="));
-
-
-    }
-
-    public String[] getAllMessages(File file) throws IOException {
-        List<String> mail = getAllText(file);
-        Random rand = new Random();
-        String msg = mail.get(rand.nextInt(mail.size()));
-        String[] split = new String[2];
-        System.arraycopy(msg.split("\n\n==\n"), 0, split, 0, 2);
-        return split;
+        return List.of(s.toString().split("\n\n==\n"));
     }
 
     public List<Person> getAllVictims(File file) throws IOException {

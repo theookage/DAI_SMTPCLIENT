@@ -22,7 +22,7 @@ public class Main {
         int numberOfGroups = configurationManager.getConfigNbGroup(fPropreties);
         // b) les messages (les "body")
         File fMessages = new File("config/messages.utf8");
-        String[] messages = configurationManager.getAllMessages(fMessages);
+        List<String> bodies = configurationManager.getAllBodies(fMessages);
         // c) les victimes
         File fVictimes = new File("config/victims.utf8");
         List<Person> victims = configurationManager.getAllVictims(fVictimes);
@@ -54,7 +54,7 @@ public class Main {
         for (Group group :
                 groups) {
             // Prend un random "body"
-            String randomBody = messages[ran.nextInt(messages.length)];
+            String randomBody = bodies.get(ran.nextInt(bodies.size()));
             Mail mail = new Mail(group.getSender(), group.getRecipients(), randomBody);
             mails.add(mail);
         }
