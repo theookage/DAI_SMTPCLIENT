@@ -56,3 +56,4 @@ Une ligne doit correspondre à une adresse mail de victime (veillez à bien resp
 
 ## Description de l'implémentation (présentation de l'architecture)
 TODO
+![UML](../figures/uml.png)

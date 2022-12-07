@@ -20,8 +20,8 @@ public class ConfigurationManager {
 
         while (isr.ready()) {
 
-            while ((c = (char) isr.read()) != '\r' && isr.ready())
-                if ( c!='\n') s.append(c);
+            while (((c = (char) isr.read()) != '\n' && c != '\r') && isr.ready())
+                s.append(c);
             line.add(s.toString());
             s = new StringBuilder();
         }
