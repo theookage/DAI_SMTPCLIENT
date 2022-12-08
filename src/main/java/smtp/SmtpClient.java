@@ -73,17 +73,6 @@ public class SmtpClient {
         line = in.readLine();
         LOG.info(line);
         out.write("Content-Type: text/plain charset=\"utf-8\"" + CRLF);
-        out.write("From: ");
-        out.write(mail.from().toString());
-        out.write(CRLF);
-        out.write("To: ");
-        for (Person p : mail.to()) {
-            out.write(p.toString());
-            if (p != (mail.to().get(mail.to().size() - 1))) {
-                out.write(",");
-            }
-        }
-        out.write(CRLF + CRLF);
         out.write(mail.body());
         out.write(CRLF + "." + CRLF);
         out.flush();
